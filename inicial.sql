@@ -59,9 +59,6 @@ insert into usuario_grupo (usuario_id, grupo_id) values
 (2, 2),
 (3, 3);
 
- insert into carros (nome) values ('ferrari');
- insert into clientes (nome) values ('Gauss');
- insert into vendas (carro_id, cliente_id) values (1,100);
 
 insert into log_login (usuario_id, ip, sucesso) values
 (1, '192.168.1.1', true),
