@@ -59,6 +59,11 @@ insert into usuario_grupo (usuario_id, grupo_id) values
 (2, 2),
 (3, 3);
 
+insert into grupo_papel (grupo_id, papel_id) values
+(1, 1),
+(1, 2),
+(2, 2),
+(3, 3);
 
 insert into log_login (usuario_id, ip, sucesso) values
 (1, '192.168.1.1', true),
