@@ -1,40 +1,49 @@
+CREATE DATABASE IF NOT EXISTS controle_acesso;
+USE controle_acesso;
+
 
 CREATE TABLE usuario (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(100),
   email VARCHAR(100) UNIQUE,
-  data_cadastro DATE DEFAULT CURRENT_DATE,
+  data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
   status BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE grupo (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(50)
 );
 
 CREATE TABLE papel (
-  id SERIAL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(50)
 );
 
+
 CREATE TABLE usuario_grupo (
-  usuario_id INT REFERENCES usuario(id),
-  grupo_id INT REFERENCES grupo(id),
-  PRIMARY KEY (usuario_id, grupo_id)
+  usuario_id INT,
+  grupo_id INT,
+  PRIMARY KEY (usuario_id, grupo_id),
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE,
+  FOREIGN KEY (grupo_id) REFERENCES grupo(id) ON DELETE CASCADE
 );
 
 CREATE TABLE grupo_papel (
-  grupo_id INT REFERENCES grupo(id),
-  papel_id INT REFERENCES papel(id),
-  PRIMARY KEY (grupo_id, papel_id)
+  grupo_id INT,
+  papel_id INT,
+  PRIMARY KEY (grupo_id, papel_id),
+  FOREIGN KEY (grupo_id) REFERENCES grupo(id) ON DELETE CASCADE,
+  FOREIGN KEY (papel_id) REFERENCES papel(id) ON DELETE CASCADE
 );
 
 CREATE TABLE log_login (
-  id SERIAL PRIMARY KEY,
-  usuario_id INT REFERENCES usuario(id),
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT,
   data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   ip VARCHAR(45),
-  sucesso BOOLEAN
+  sucesso BOOLEAN,
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
 
@@ -53,10 +62,8 @@ INSERT INTO papel (nome) VALUES
 ('RELATORIO_ACESSO'),
 ('CONFIGURAR_GRUPOS');
 
-
 INSERT INTO usuario_grupo VALUES (1, 1), (2, 2), (3, 3);
 INSERT INTO grupo_papel VALUES (1, 1), (1, 2), (2, 2), (3, 3);
-
 
 INSERT INTO log_login (usuario_id, ip, sucesso) VALUES
 (1, '192.168.0.10', TRUE),
